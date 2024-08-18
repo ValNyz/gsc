@@ -1,3 +1,5 @@
+%debug_package
+
 BuildRoot: /home/nyzam/rpmbuild/BUILDROOT/
 
 Name:       {{{ git_dir_name }}}
@@ -41,10 +43,9 @@ cd src
 
 %install
 cd src
-make install root=%{buildroot}
-chmod 755 ../bin/decode
-chmod 755 ../bin/gsc
-find-debuginfo
+%make_install
+
+#make install root=%{buildroot}
 
 cd ..
 rm -rf $RPM_BUILD_ROOT
