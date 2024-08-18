@@ -47,15 +47,18 @@ mkdir -p -m 755 $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_datadir}/GSC
 install -D -m 755 bin/decode $RPM_BUILD_ROOT%{_bindir}
 install -D -m 755 bin/gsc $RPM_BUILD_ROOT%{_bindir}
 install -D -m 644 bin/regions* $RPM_BUILD_ROOT%{_bindir}
+
 install -D -m 644 regions* $RPM_BUILD_ROOT%{_datadir}/GSC
-install -D -m 644 N* -d $RPM_BUILD_ROOT%{_datadir}/GSC
-install -D -m 644 S* -d $RPM_BUILD_ROOT%{_datadir}/GSC
+for gsc_folder in $(ls -d N* S*); do
+    install -D -m 755 -d $RPM_BUILD_ROOT%{_datadir}/GSC/$gsc_folder
+    for gsc_file in $gsc_folder; do
+        install -m 644 $gsc_folder/$gsc_file $RPM_BUILD_ROOT%{_datadir}/GSC/$gsc_folder
+    done
+done
 
 %files
 %{_datadir}/GSC/*
-%{_bindir}/decode
-%{_bindir}/gsc
-%{_bindir}/regions*
+%{_bindir}/*
 
 
 %changelog
