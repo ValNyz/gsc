@@ -1,6 +1,14 @@
 --- src/Makefile.orig	2024-08-17 16:34:43.525322400 +0200
-+++ src/Makefile	2024-08-18 21:55:17.468075783 +0200
-@@ -38,9 +38,8 @@
++++ src/Makefile	2024-08-18 22:25:03.406439591 +0200
+@@ -31,6 +31,7 @@
+ ##### Unix definitions
+ SHELL = /bin/sh
+ CC    = cc -I. -O
++CXXFLAGS = -g
+ CLEAN = strip a.out ; rm *.o ; mv a.out $@
+ SLIB  = -lm
+ COPY  = cp -p
+@@ -38,9 +39,8 @@
  #########################################
  
  ##### Files:
@@ -12,7 +20,7 @@
  PLATEPOCHS = ../plates.epoch
  
  # Directories by Declination
-@@ -50,20 +49,20 @@
+@@ -50,20 +50,20 @@
  
  # DEPENDENCIES	--------------------------------
  
@@ -21,14 +29,16 @@
  
  ### Query Program:
 -gsc.exe: gsc.c $(UTIL) gsc.h
+-	$(CC) gsc.c $(UTIL) $(SLIB)
 +gsc: gsc.c $(UTIL) gsc.h
- 	$(CC) gsc.c $(UTIL) $(SLIB)
++	$(CC) gsc.c $(UTIL) $(SLIB) $(CXXFLAGS)
  	$(CLEAN)
  
  ### Edit a full file to stdout:
 -decode.exe: decode.c decode_c.c get_head.c prtgsc.c dtos.c gsc.h
+-	$(CC) decode.c decode_c.c get_head.c prtgsc.c dtos.c $(SLIB)
 +decode: decode.c decode_c.c get_head.c prtgsc.c dtos.c gsc.h
- 	$(CC) decode.c decode_c.c get_head.c prtgsc.c dtos.c $(SLIB)
++	$(CC) decode.c decode_c.c get_head.c prtgsc.c dtos.c $(SLIB) $(CXXFLAGS)
  	$(CLEAN)
  
  ### Generate the Index of Regions:
@@ -37,7 +47,7 @@
  	$(CC) genreg.c get_head.c find_reg.c
  	$(CLEAN)
  
-@@ -105,12 +104,13 @@
+@@ -105,12 +105,13 @@
  	    cat ../$$d/=done= || exit 1 ; \
  	done
  
