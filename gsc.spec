@@ -42,6 +42,7 @@ cd src
 %install
 cd src
 make install root=%{buildroot}
+find-debuginfo.sh 
 
 cd ..
 rm -rf $RPM_BUILD_ROOT
