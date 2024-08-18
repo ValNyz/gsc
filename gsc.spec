@@ -1,5 +1,4 @@
 %debug_package
-
 BuildRoot: /home/nyzam/rpmbuild/BUILDROOT/
 
 Name:       {{{ git_dir_name }}}
