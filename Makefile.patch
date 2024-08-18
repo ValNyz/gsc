@@ -1,10 +1,12 @@
 --- src/Makefile.orig	2024-08-17 16:34:43.525322400 +0200
-+++ src/Makefile	2024-08-18 22:25:03.406439591 +0200
-@@ -31,6 +31,7 @@
++++ src/Makefile	2024-08-18 22:33:03.954017529 +0200
+@@ -30,7 +30,8 @@
+ #DEL   = del
  ##### Unix definitions
  SHELL = /bin/sh
- CC    = cc -I. -O
-+CXXFLAGS = -g
+-CC    = cc -I. -O
++CC    = cc -I.
++CXXFLAGS = -g2
  CLEAN = strip a.out ; rm *.o ; mv a.out $@
  SLIB  = -lm
  COPY  = cp -p
@@ -61,7 +63,7 @@
  
  clean:
 -	$(DEL) *.exe epoch encode core
-+	$(DEL) gsc epoch encode core
++	$(DEL) gsc decode genreg epoch encode core
  
  
  #############################################################################
