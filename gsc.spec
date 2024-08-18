@@ -13,12 +13,9 @@ Patch1:     decode.c.patch
 Patch2:     get_head.c.patch
 Patch3:     gsc.c.patch
 Patch4:     to_d.c.patch
-Patch5:     genred.c.patch
+Patch5:     genreg.c.patch
 
 BuildRequires: gcc
-
-# I will solve this later
-Conflicts:  gambit-c
 
 %description
 The GSC 1.2 catalog from u-strasbg.fr
@@ -41,18 +38,16 @@ cd src
 %make_install
 
 cd ..
-rm -rf $RPM_BUILD_ROOT
-mkdir -p -m 755 $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_datadir}/GSC
-install -D -m 755 bin/decode $RPM_BUILD_ROOT%{_bindir}
-install -D -m 755 bin/gsc $RPM_BUILD_ROOT%{_bindir}
-install -D -m 644 bin/regions* $RPM_BUILD_ROOT%{_bindir}
+rm -rf %{buildroot}/
+mkdir -p -m 755 %{buildroot}%{_bindir} %{buildroot}%{_datadir}/GSC
+install -D -m 755 bin/decode %{buildroot}%{_bindir}
+install -D -m 755 bin/gsc %{buildroot}%{_bindir}
+install -D -m 644 bin/regions* %{buildroot}%{_bindir}
 
-install -D -m 644 regions* $RPM_BUILD_ROOT%{_datadir}/GSC
+install -D -m 644 regions* %{buildroot}%{_datadir}/GSC
 for gsc_folder in N* S*; do
-    install -D -m 755 -d $RPM_BUILD_ROOT%{_datadir}/GSC/$gsc_folder
-    for gsc_file in `ls $gsc_folder`; do
-        install -m 644 $gsc_folder/$gsc_file $RPM_BUILD_ROOT%{_datadir}/GSC/$gsc_folder
-    done
+    install -D -m 755 -d %{buildroot}%{_datadir}/GSC/$gsc_folder
+    install -m 644 $gsc_folder/* %{buildroot}%{_datadir}/GSC/$gsc_folder
 done
 
 %files
