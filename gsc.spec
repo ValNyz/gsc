@@ -51,6 +51,8 @@ for gsc_folder in N* S*; do
 done
 
 %files
+%doc README
+%license LICENSE
 %{_datadir}/GSC/*
 %{_bindir}/*
 
