@@ -1,0 +1,19 @@
+--- src/decode.c.orig	2024-08-17 16:34:43.524322416 +0200
++++ src/decode.c	2024-08-17 16:38:28.417364073 +0200
+@@ -14,6 +14,7 @@
+ *=================================================================*/
+ 
+ #include <gsc.h>
++#include <unistd.h>
+ 
+ static char usage[] = "\
+ Usage: decode [-help] [-fits] gsc_bin_file [gsc_bin_file...]\n\
+@@ -142,7 +143,7 @@
+ 
+ 
+ 
+-main(argc,argv)
++int main(argc,argv)
+         int argc; char **argv;
+ {
+ 	unsigned char c[12];
