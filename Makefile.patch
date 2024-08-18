@@ -1,23 +1,17 @@
 --- src/Makefile.orig	2024-08-17 16:34:43.525322400 +0200
-+++ src/Makefile	2024-08-18 23:50:49.446597155 +0200
-@@ -24,13 +24,14 @@
- #########################################
- #
- ##### Turbo-C Definitions on PCs
--#CC    = tcc -I. -mh -O -Z -G -N
-+#GCC    = tcc -I. -mh -O -Z -G -N
- #CLEAN = del *.obj
- #SLIB  =
++++ src/Makefile	2024-08-19 00:34:24.523942434 +0200
+@@ -30,17 +30,17 @@
  #DEL   = del
  ##### Unix definitions
  SHELL = /bin/sh
 -CC    = cc -I. -O
-+GCC    = gcc -I.
-+CXXFLAGS = -g2
++#CC    = gcc -I.
++#CXXFLAGS = -g2
  CLEAN = strip a.out ; rm *.o ; mv a.out $@
- SLIB  = -lm
+-SLIB  = -lm
++#SLIB  = -lm
  COPY  = cp -p
-@@ -38,9 +39,8 @@
+ DEL   = rm -f
  #########################################
  
  ##### Files:
@@ -29,7 +23,7 @@
  PLATEPOCHS = ../plates.epoch
  
  # Directories by Declination
-@@ -50,31 +50,31 @@
+@@ -50,27 +50,27 @@
  
  # DEPENDENCIES	--------------------------------
  
@@ -39,38 +33,37 @@
  ### Query Program:
 -gsc.exe: gsc.c $(UTIL) gsc.h
 -	$(CC) gsc.c $(UTIL) $(SLIB)
+-	$(CLEAN)
 +gsc: gsc.c $(UTIL) gsc.h
-+	$(GCC) gsc.c $(UTIL) $(SLIB) $(CXXFLAGS)
- 	$(CLEAN)
++	$(CC) -I. $(CXXFLAGS) gsc.c $(UTIL) -o ../bin/$@ -lm $(LDFLAGS)
++	# $(CLEAN)
  
  ### Edit a full file to stdout:
 -decode.exe: decode.c decode_c.c get_head.c prtgsc.c dtos.c gsc.h
 -	$(CC) decode.c decode_c.c get_head.c prtgsc.c dtos.c $(SLIB)
+-	$(CLEAN)
 +decode: decode.c decode_c.c get_head.c prtgsc.c dtos.c gsc.h
-+	$(GCC) decode.c decode_c.c get_head.c prtgsc.c dtos.c $(SLIB) $(CXXFLAGS)
- 	$(CLEAN)
++	$(CC) -I. $(CXXFLAGS) decode.c decode_c.c get_head.c prtgsc.c dtos.c -o ../bin/$@ -lm $(LDFLAGS)
++	# $(CLEAN)
  
  ### Generate the Index of Regions:
 -genreg.exe: genreg.c  get_head.c find_reg.c gsc.h
 -	$(CC) genreg.c get_head.c find_reg.c
+-	$(CLEAN)
 +genreg: genreg.c get_head.c find_reg.c gsc.h
-+	$(GCC) genreg.c get_head.c find_reg.c
- 	$(CLEAN)
++	$(CC) -I. $(CXXFLAGS) genreg.c get_head.c find_reg.c -o $@ -lm $(LDFLAGS)
++	# $(CLEAN)
  
  ### Relation Plate --> Epoch
  epoch: epoch.c get_head.c gsc.h
 -	$(CC) epoch.c get_head.c
-+	$(GCC) epoch.c get_head.c
- 	$(CLEAN)
+-	$(CLEAN)
++	$(CC) -I. $(CXXFLAGS) epoch.c get_head.c -o $@ -lm $(LDFLAGS)
++	# $(CLEAN)
  
  ### Generate the Binary Files from FITS
  encode: encode.c
--	$(CC) encode.c -lm -o $@
-+	$(GCC) encode.c -lm -o $@
- 
- #### Generate all Binary Files from FITS CDROMs
- phase1: encode epoch
-@@ -105,12 +105,13 @@
+@@ -105,12 +105,11 @@
  	    cat ../$$d/=done= || exit 1 ; \
  	done
  
@@ -78,8 +71,6 @@
 -	$(COPY) gsc.exe decode.exe ../bin
 -	GSCDAT=`pwd`/..; export GSCDAT; genreg.exe -b -c -d
 +install: $(PGMS) genreg phase2
-+	$(COPY) gsc decode ../bin
-+	touch ../regions.dat ../regions.ord
 +	GSCDAT=`pwd`/..; export GSCDAT; ./genreg -b -c -d
  
  clean:
