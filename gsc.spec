@@ -42,7 +42,9 @@ cd src
 %install
 cd src
 make install root=%{buildroot}
-find-debuginfo.sh 
+chmod 755 ../bin/decode
+chmod 755 ../bin/gsc
+find-debuginfo
 
 cd ..
 rm -rf $RPM_BUILD_ROOT
