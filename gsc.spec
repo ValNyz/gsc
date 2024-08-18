@@ -49,9 +49,9 @@ install -D -m 755 bin/gsc $RPM_BUILD_ROOT%{_bindir}
 install -D -m 644 bin/regions* $RPM_BUILD_ROOT%{_bindir}
 
 install -D -m 644 regions* $RPM_BUILD_ROOT%{_datadir}/GSC
-for gsc_folder in $(ls -d N* S*); do
+for gsc_folder in N* S*; do
     install -D -m 755 -d $RPM_BUILD_ROOT%{_datadir}/GSC/$gsc_folder
-    for gsc_file in $gsc_folder; do
+    for gsc_file in `ls $gsc_folder`; do
         install -m 644 $gsc_folder/$gsc_file $RPM_BUILD_ROOT%{_datadir}/GSC/$gsc_folder
     done
 done
