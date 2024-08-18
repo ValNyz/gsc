@@ -48,6 +48,7 @@ for gsc_folder in N* S*; do
     install -D -m 755 -d %{buildroot}%{_datadir}/GSC/$gsc_folder
     install -m 644 $gsc_folder/* %{buildroot}%{_datadir}/GSC/$gsc_folder
 done
+pwd
 
 %files
 %doc README
