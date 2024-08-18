@@ -1,0 +1,53 @@
+--- src/gsc.c.orig	2024-08-17 18:06:19.641049003 +0200
++++ src/gsc.c	2024-08-18 19:34:22.320132041 +0200
+@@ -17,12 +17,15 @@
+ *=================================================================*/
+ 
+ #include <gsc.h>
++#include <unistd.h>
+ #define REGBIN	"/regions.bin"
+ #define REGIND	"/regions.ind"
+ #define scale 3600000L
+ #define phir  150.	/* unused */
+ #define radian (180./M_PI)
+ 
++int to_d(char *str, double *alphad, double *decd);
++
+ typedef int (*FCT)();	/* Compare function */
+ typedef struct lgsc_s {	/* Linked GSC record*/
+     struct lgsc_s *prev;
+@@ -353,10 +356,10 @@
+ 
+ /*==========================================================================*/
+ 
+-main(argc,argv)
++int main(argc,argv)
+   int argc; char **argv;
+ {
+-  static char *GSCDAT = "/GSC";	/* Default, superseded by $GSCDAT */
++  static char *GSCDAT = "/usr/share/GSC";	/* Default, superseded by $GSCDAT */
+   static char *GSCBIN  = (char *)0;
+   static int bin_swapped = 0 ;		/* BIN files are swapped */
+   static tr_regions rec[NREC];
+@@ -398,7 +401,7 @@
+             GSCDAT = strdup(argv[0]) ;
+             GSCDAT[strlen(argv[0])-12] = 0 ;
+         }
+-        if (!GSCDAT) GSCDAT = "/GSC" ;
++        if (!GSCDAT) GSCDAT = "/usr/share/GSC" ;
+ 
+         /* Export the variable for the subroutines */
+         ptr = malloc(strlen(GSCDAT)+8) ;
+@@ -407,11 +410,7 @@
+ 
+ 	/* Get the GSCBIN environment variable */
+  	GSCBIN = getenv("GSCBIN");
+-	if (! GSCBIN) {
+-	    strcpy(path, GSCDAT);
+-	    strcat(path, "/bin");
+-	    GSCBIN = strdup(path);
+-	}
++	if (! GSCBIN) GSCBIN = "/usr/bin" ;
+ 
+ /* ------ parse command-line options ------------------------------------*/
+ 
