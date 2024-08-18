@@ -15,8 +15,7 @@ Patch3:     gsc.c.patch
 Patch4:     to_d.c.patch
 Patch5:     genred.c.patch
 
-BuildRequires: cmake
-BuildRequires: extra-cmake-modules
+BuildRequires: gcc
 
 # I will solve this later
 Conflicts:  gambit-c
