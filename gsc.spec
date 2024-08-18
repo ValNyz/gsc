@@ -43,7 +43,7 @@ cd src
 
 cd ..
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_datadir}/GSC
+mkdir -p -m 755 $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_datadir}/GSC
 install -D -m 755 bin/decode $RPM_BUILD_ROOT%{_bindir}
 install -D -m 755 bin/gsc $RPM_BUILD_ROOT%{_bindir}
 install -D -m 644 bin/regions* $RPM_BUILD_ROOT%{_bindir}
