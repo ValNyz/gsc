@@ -1,0 +1,57 @@
+--- src/Makefile.orig	2024-08-17 16:34:43.525322400 +0200
++++ src/Makefile	2024-08-17 20:01:09.009546044 +0200
+@@ -38,9 +38,8 @@
+ #########################################
+ 
+ ##### Files:
+-UTIL  = prtgsc.c dispos.c decode_c.c get_head.c find_reg.c \
+-	to_d.c dtos.c
+-PGMS  = gsc.exe decode.exe
++UTIL  = prtgsc.c dispos.c decode_c.c get_head.c find_reg.c to_d.c dtos.c
++PGMS  = gsc decode
+ PLATEPOCHS = ../plates.epoch
+ 
+ # Directories by Declination
+@@ -50,20 +49,20 @@
+ 
+ # DEPENDENCIES	--------------------------------
+ 
+-default: gsc.exe decode.exe
++default: gsc decode
+ 
+ ### Query Program:
+-gsc.exe: gsc.c $(UTIL) gsc.h
++gsc: gsc.c $(UTIL) gsc.h
+ 	$(CC) gsc.c $(UTIL) $(SLIB)
+ 	$(CLEAN)
+ 
+ ### Edit a full file to stdout:
+-decode.exe: decode.c decode_c.c get_head.c prtgsc.c dtos.c gsc.h
++decode: decode.c decode_c.c get_head.c prtgsc.c dtos.c gsc.h
+ 	$(CC) decode.c decode_c.c get_head.c prtgsc.c dtos.c $(SLIB)
+ 	$(CLEAN)
+ 
+ ### Generate the Index of Regions:
+-genreg.exe: genreg.c  get_head.c find_reg.c gsc.h
++genreg: genreg.c get_head.c find_reg.c gsc.h
+ 	$(CC) genreg.c get_head.c find_reg.c
+ 	$(CLEAN)
+ 
+@@ -105,12 +104,14 @@
+ 	    cat ../$$d/=done= || exit 1 ; \
+ 	done
+ 
+-install: $(PGMS) genreg.exe phase2
+-	$(COPY) gsc.exe decode.exe ../bin
+-	GSCDAT=`pwd`/..; export GSCDAT; genreg.exe -b -c -d
++install: $(PGMS) genreg phase2
++	$(COPY) gsc decode ../bin
++	touch ../regions.dat ../regions.ord
++	GSCDAT=`pwd`/..; export GSCDAT; ./genreg -b -c -d
+ 
+ clean:
+-	$(DEL) *.exe epoch encode core
++	$(DEL) gsc epoch encode core
+ 
+ 
+ #############################################################################
