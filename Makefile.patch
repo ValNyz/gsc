@@ -1,11 +1,18 @@
 --- src/Makefile.orig	2024-08-17 16:34:43.525322400 +0200
-+++ src/Makefile	2024-08-18 22:33:03.954017529 +0200
-@@ -30,7 +30,8 @@
++++ src/Makefile	2024-08-18 23:50:49.446597155 +0200
+@@ -24,13 +24,14 @@
+ #########################################
+ #
+ ##### Turbo-C Definitions on PCs
+-#CC    = tcc -I. -mh -O -Z -G -N
++#GCC    = tcc -I. -mh -O -Z -G -N
+ #CLEAN = del *.obj
+ #SLIB  =
  #DEL   = del
  ##### Unix definitions
  SHELL = /bin/sh
 -CC    = cc -I. -O
-+CC    = cc -I.
++GCC    = gcc -I.
 +CXXFLAGS = -g2
  CLEAN = strip a.out ; rm *.o ; mv a.out $@
  SLIB  = -lm
@@ -22,7 +29,7 @@
  PLATEPOCHS = ../plates.epoch
  
  # Directories by Declination
-@@ -50,20 +50,20 @@
+@@ -50,31 +50,31 @@
  
  # DEPENDENCIES	--------------------------------
  
@@ -33,22 +40,36 @@
 -gsc.exe: gsc.c $(UTIL) gsc.h
 -	$(CC) gsc.c $(UTIL) $(SLIB)
 +gsc: gsc.c $(UTIL) gsc.h
-+	$(CC) gsc.c $(UTIL) $(SLIB) $(CXXFLAGS)
++	$(GCC) gsc.c $(UTIL) $(SLIB) $(CXXFLAGS)
  	$(CLEAN)
  
  ### Edit a full file to stdout:
 -decode.exe: decode.c decode_c.c get_head.c prtgsc.c dtos.c gsc.h
 -	$(CC) decode.c decode_c.c get_head.c prtgsc.c dtos.c $(SLIB)
 +decode: decode.c decode_c.c get_head.c prtgsc.c dtos.c gsc.h
-+	$(CC) decode.c decode_c.c get_head.c prtgsc.c dtos.c $(SLIB) $(CXXFLAGS)
++	$(GCC) decode.c decode_c.c get_head.c prtgsc.c dtos.c $(SLIB) $(CXXFLAGS)
  	$(CLEAN)
  
  ### Generate the Index of Regions:
 -genreg.exe: genreg.c  get_head.c find_reg.c gsc.h
+-	$(CC) genreg.c get_head.c find_reg.c
 +genreg: genreg.c get_head.c find_reg.c gsc.h
- 	$(CC) genreg.c get_head.c find_reg.c
++	$(GCC) genreg.c get_head.c find_reg.c
  	$(CLEAN)
  
+ ### Relation Plate --> Epoch
+ epoch: epoch.c get_head.c gsc.h
+-	$(CC) epoch.c get_head.c
++	$(GCC) epoch.c get_head.c
+ 	$(CLEAN)
+ 
+ ### Generate the Binary Files from FITS
+ encode: encode.c
+-	$(CC) encode.c -lm -o $@
++	$(GCC) encode.c -lm -o $@
+ 
+ #### Generate all Binary Files from FITS CDROMs
+ phase1: encode epoch
 @@ -105,12 +105,13 @@
  	    cat ../$$d/=done= || exit 1 ; \
  	done
