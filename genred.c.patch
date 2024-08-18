@@ -1,0 +1,52 @@
+--- src/genreg.c.orig	2024-08-17 18:34:48.279138911 +0200
++++ src/genreg.c	2024-08-17 18:37:06.721196605 +0200
+@@ -10,6 +10,7 @@
+ *=================================================================*/
+ 
+ #include <gsc.h>
++#include <unistd.h>
+ #define scale 3600000L
+ 
+ static char *GSCDAT ;	/* Default, superseded by $GSCDAT */
+@@ -48,7 +49,7 @@
+ 
+ static REGDEC regs[9600] ;
+ 
+-main(argc,argv)
++int main(argc,argv)
+   int argc; char **argv;
+ {
+   double deci1,deci2; 
+@@ -89,7 +90,7 @@
+ 	fprintf(stderr,"....Prepare file: %s ", region);
+ 	fo = open(region, O_BINARY|O_RDWR|O_CREAT|O_TRUNC);
+ 	if (fo < 0 ) { perror(""); exit(1); }
+-	fchmod(fo, 0644);
++	// fchmod(fo, 0644);
+ 
+ 	fprintf(stderr,"\n....Reading regions:");
+ 
+@@ -128,7 +129,7 @@
+ 	fprintf(stderr,"....Prepare file: %s ", region);
+ 	fo = open(region, O_WRONLY|O_CREAT|O_TRUNC);
+ 	if (fo < 0 ) { perror(""); exit(1); }
+-	fchmod(fo, 0644);
++	// fchmod(fo, 0644);
+ 
+ 	fprintf(stderr, "\nWriting out %s: ", region);
+ 
+@@ -154,12 +155,12 @@
+ 	strcpy(region, GSCBIN); strcat(region, "/regions.bin");
+ 	fb = open(region, O_BINARY|O_WRONLY|O_CREAT|O_TRUNC);
+ 	if (fb < 0 ) { fprintf(stderr, "\n"); perror(region); exit(1); }
+-	fchmod(fb, 0644);
++	// fchmod(fb, 0644);
+ 
+ 	strcpy(region, GSCBIN); strcat(region, "/regions.ind");
+ 	fi = open(region, O_BINARY|O_WRONLY|O_CREAT|O_TRUNC);
+ 	if (fi < 0 ) { fprintf(stderr, "\n"); perror(region); exit(1); }
+-	fchmod(fi, 0644);
++	// fchmod(fi, 0644);
+ 
+ 	od = 1;
+ 	strcpy(region, GSCDAT); strcat(region, "/regions.dat");
