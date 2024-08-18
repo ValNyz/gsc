@@ -37,11 +37,11 @@ The GSC 1.2 catalog from u-strasbg.fr
 
 %build
 cd src
-make build
+%make_build
 
 %install
 cd src
-make_install root=%{buildroot}
+make install root=%{buildroot}
 
 cd ..
 rm -rf $RPM_BUILD_ROOT
