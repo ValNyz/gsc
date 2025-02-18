@@ -1,9 +1,10 @@
 Name:       {{{ git_dir_name }}}
 Version:    1.2
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Hubble Guide Star Catalog (GSC)
 License:    GPLv3
 
+%undefine _disable_source_fetch
 URL:        https://github.com/ValNyz/gsc
 VCS:        {{{ git_dir_vcs }}}
 Source0:    https://cdsarc.u-strasbg.fr/viz-bin/nph-Cat/tar.gz?bincats/GSC_1.2#/%{name}-%{version}.tar.gz
@@ -56,6 +57,9 @@ done
 
 %changelog
 {{{ git_dir_changelog }}}
+
+* Sun Aug 18 2024 Valentin Nyzam <valentin.nyzam@gmail.com>
+- Fix compilation error on newest gcc. Work up to Fedora 41.
 
 * Thu Nov  5 2020 Jim Howard <jh.xsnrg@gmail.com>
 - updated to build directly
