@@ -4,7 +4,7 @@ Release:    2%{?dist}
 Summary:    Hubble Guide Star Catalog (GSC)
 License:    GPLv3
 
-# Needed for local packaging : %undefine _disable_source_fetch
+# Needed for local packaging (double percent signs): %%undefine _disable_source_fetch
 URL:        https://github.com/ValNyz/gsc
 VCS:        {{{ git_dir_vcs }}}
 Source0:    https://cdsarc.u-strasbg.fr/viz-bin/nph-Cat/tar.gz?bincats/GSC_1.2#/%{name}-%{version}.tar.gz
